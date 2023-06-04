@@ -2,30 +2,27 @@ name: React App Pipeline test
 
 on:
   pull_request:
-  types:
-    - closed
-    
+    types:
+      - closed
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Build and Deploy
-      run: |
-        # Update the h1 tag
-          sed -i 's/Pipeline practice/Updated content/g' src/App.js
-          
-        # Commit and push the changes to a new branch
-        git checkout -b release-branch-${{ github.run_number }}
-        git add.
-        git commit -m "Update h1 tag"
-        git push origin release-branch-${{ github.run_nu,ber }}
-        
-    - name: Log pipeline trigger count
-      run: echo "pipeline trigger ${{ github.run_number }}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./build
+
+      - name: Log pipeline trigger count
+        run: echo "pipeline trigger ${{ github.run_number }}"
