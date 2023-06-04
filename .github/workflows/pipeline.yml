@@ -26,4 +26,7 @@ jobs:
           publish_dir: ./build
 
       - name: Log pipeline trigger count
-        run: echo "pipeline trigger ${{ github.run_number }}"
+        run: |
+          echo "pipeline trigger ${{ github.run_number }}"
+          echo "GitHub Context:"
+          echo "${{ toJson(github) }}"
